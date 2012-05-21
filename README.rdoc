@@ -1,4 +1,4 @@
-= EStem - Spanish Stem Gem
+= Spanish Stem Gem
 
 == Description
 This gem is for reducing Spanish words to their roots. It uses an algorithm
@@ -14,8 +14,7 @@ para ello ultiliza un algoritmo basado en las especificaciones de Martin Porter
 Para más información, visite:
 http://snowball.tartarus.org/algorithms/spanish/stemmer.html
 
-== Install
-== Instalar
+== Install -- Instalar
 
   $ sudo gem install estem
 or
@@ -52,7 +51,7 @@ the file, you might consider finding an Spanish tokenizer, either way this
 program do what it is suppose to do, stem Spanish words.
 
 NOTE: For excellent results, consider replacing one word per line on the files
-      the <tt>es_stem</tt> handles.
+      the es_stem handles.
 
 == Uso
 Como recordatorio, ten en cosideración que el Castellano posee muchos carácteres
@@ -84,9 +83,9 @@ este propósito, de todas maneras, es_stem hace lo que se supone debe hacer,
 optener las raíces de las palabras.
 
 NOTA: Para resultados excelentes, considere poner una palabra por línea en los
-      ficheros que pasará al programa <tt>es_stem</tt>.
-== Test
-== Pruebas
+      ficheros que pasará al programa es_stem.
+
+== Test -- Pruebas
 
 This test is based on the sample input and output text from Martin Porter
 website. It includes 23532 test words and their expected stem results.
@@ -94,14 +93,12 @@ To run the test, just type
 
   rake test
 
-== Thanks
-== Agradecimientos
+== Thanks -- Agradecimientos
 
 Ray Pereda https://github.com/raypereda/stemmify/ I used his gem as a guide to
 package mine. http://guides.rubygems.org/make-your-own-gem/ as well.
 
-== License
-== Licencia
+== License -- Licencia
 
 Copyright (c) 2012 Manuel A. Güílamo
  

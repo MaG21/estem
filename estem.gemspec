@@ -11,7 +11,7 @@ Gem::Specification.new do |s|
   s.email              = "maguilamo.c@gmail.com"
   s.files              = ["Rakefile", "bin/es_stem.rb"] + Dir["lib/**/*"]
   s.test_files         = Dir['test/*']
-  s.homepage           = 
+  s.homepage           = "https://github.com/MaG21/estem"
   s.require_paths      = ["lib"]
   s.summary            = "Spanish stemming. Based on Martin Porter's specifications."
 end
