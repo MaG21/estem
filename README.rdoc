@@ -1,0 +1,125 @@
+= EStem - Spanish Stem Gem
+
+== Description
+This gem is for reducing Spanish words to their roots. It uses an algorithm
+based on Martin Porter's specifications.
+ 
+For more information, visit:
+http://snowball.tartarus.org/algorithms/spanish/stemmer.html
+
+== Descripción
+Esta gema está para reducir las palabras del Español en sus respectivas raíces,
+para ello ultiliza un algoritmo basado en las especificaciones de Martin Porter
+
+Para más información, visite:
+http://snowball.tartarus.org/algorithms/spanish/stemmer.html
+
+== Install
+== Instalar
+
+  $ sudo gem install estem
+or
+  $ gem install estem
+
+== Usage
+As a reminder, take in consideration that the Spanish language have several non
+US-ASCII characters, and because of that, the same data may varied from one
+codeset to another.
+
+Please remember to use a UTF-8 compatible encoding while using EStem. Please do
+not use String#force_encoding() to convert from one codeset to another, you
+might try using String#encode() but this later is more likely to fail, consider
+using Iconv#iconv if you are handling incompatible codesets.
+
+  require 'estem'
+
+  puts "albergues".es_stem      # ==> "alberg"
+  puts "habitaciones".es_stem   # ==> "habit"
+
+  # EStem will never make unnecessary changes to your input data.
+  puts "ALbeRGues".es_stem      # ==> "ALbeRG"
+  puts "HaBiTaCiOnEs".es_stem   # ==> "HaBiT"
+  puts "Hacinamiento".es_stem   # ==> "Hacin"
+
+You can use <tt>EStem</tt> as a command line tool:
+  $ es_stem --in-enc ISO-8859-1 -f input_file.txt
+
+for more information type
+  $ es_stem --help
+
+The <tt>es_stem</tt> program do his best trying to tokenized the lines from
+the file, you might consider finding an Spanish tokenizer, either way this
+program do what it is suppose to do, stem Spanish words.
+
+NOTE: For excellent results, consider replacing one word per line on the files
+      the <tt>es_stem</tt> handles.
+
+== Uso
+Como recordatorio, ten en cosideración que el Castellano posee muchos carácteres
+que están fuera del código ASCII, y por esta razón, los datos pueden variar de
+un conjunto de codificación a otro.
+
+Por favor recuerde utilizar sistemas de condificación compatibles con UTF-8
+cuando se trabaje con EStem. Por favor no use String#force_encoding para
+convertir de un conjunto de codificación a otro, podría utilizar String#encode
+pero este último es más probable que falle en el intento, considere utilizar
+Iconv#iconv si está manejando conjuntos de codificación incompatibles.
+
+  require 'estem'
+
+  puts "albergues".es_stem      # ==> "alberg"
+  puts "habitaciones".es_stem   # ==> "habit"
+
+  # EStem nunca hará cambios innecesarios a tus datos.
+  puts "ALbeRGues".es_stem      # ==> "ALbeRG"
+  puts "HaBiTaCiOnEs".es_stem   # ==> "HaBiT"
+  puts "Hacinamiento".es_stem   # ==> "Hacin"
+  
+Para más información ejecute el siguiente mandato:
+  $ es_stem --help
+
+El programa <tt>es_stem</tt> hará lo posible para separar las palabras de cada
+línea del fichero. Sería sensato utilizar otro programa más especializado para
+este propósito, de todas maneras, es_stem hace lo que se supone debe hacer,
+optener las raíces de las palabras.
+
+NOTA: Para resultados excelentes, considere poner una palabra por línea en los
+      ficheros que pasará al programa <tt>es_stem</tt>.
+== Test
+== Pruebas
+
+This test is based on the sample input and output text from Martin Porter
+website. It includes 23532 test words and their expected stem results.
+To run the test, just type
+
+  rake test
+
+== Thanks
+== Agradecimientos
+
+Ray Pereda https://github.com/raypereda/stemmify/ I used his gem as a guide to
+package mine. http://guides.rubygems.org/make-your-own-gem/ as well.
+
+== License
+== Licencia
+
+Copyright (c) 2012 Manuel A. Güílamo
+ 
+Permission is hereby granted, free of charge, to any person obtaining
+a copy of this software and associated documentation files (the
+"Software"), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish,
+distribute, sublicense, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so, subject to
+the following conditions:
+ 
+The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.
+ 
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
