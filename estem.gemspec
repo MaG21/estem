@@ -2,7 +2,7 @@
 
 Gem::Specification.new do |s|
   s.name               = "estem"
-  s.version            = "0.2.2"
+  s.version            = "0.2.3"
   s.default_executable = "es_stem"
   s.required_ruby_version = '>= 1.9.2'
 
