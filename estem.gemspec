@@ -2,12 +2,13 @@
 
 Gem::Specification.new do |s|
   s.name               = "estem"
-  s.version            = "0.2.1"
+  s.version            = "0.2.2"
   s.default_executable = "es_stem"
+  s.required_ruby_version = '>= 1.9.2'
 
   s.author             = "Manuel A. Güílamo"
   s.date               = "2012-05-20"
-  s.description        = "Spanish stemming. Based on Martin Porter's specifications."
+  s.description        = "Spanish stemming. Based on Martin Porter's specifications. See README file for more information."
   s.email              = "maguilamo.c@gmail.com"
   s.files              = ["Rakefile", "bin/es_stem.rb"] + Dir["lib/**/*"]
   s.test_files         = Dir['test/*']
