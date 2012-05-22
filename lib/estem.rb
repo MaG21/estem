@@ -1,10 +1,45 @@
 # encoding: UTF-8
 #
-# Porter, Spanish stemmer in Ruby.
+# :title: Spanish Stemming
+# = Description
+# This gem is for reducing Spanish words to their roots. It uses an algorithm
+# based on Martin Porter's specifications.
+#  
+# For more information, visit:
+# http://snowball.tartarus.org/algorithms/spanish/stemmer.html
+# 
+# = Descripción
+# Esta gema está para reducir las palabras del Español en sus respectivas raíces,
+# para ello ultiliza un algoritmo basado en las especificaciones de Martin Porter
+# 
+# Para más información, visite:
+# http://snowball.tartarus.org/algorithms/spanish/stemmer.html
 #
-# :title: EStem - Ruby based Porter Spanish Stemmer
+# = License -- Licencia
+# This code is provided under the terms of the {MIT License.}[http://www.opensource.org/licenses/mit-license.php]
+#
+# = Authors
+#   * Manuel A. Güílamo
+#
 
 module EStem
+	##
+	# :method: estem
+	# For more information, please see <b>String#es_stem</b> method, also <b>EStem</b>.
+
+
+##
+#This method stem Spanish words.
+# 
+#   "albergues".es_stem      # ==> "alberg"
+#   "habitaciones".es_stem   # ==> "habit"
+#   "ALbeRGues".es_stem      # ==> "ALbeRG"
+#   "HaBiTaCiOnEs".es_stem   # ==> "HaBiT"
+#   "Hacinamiento".es_stem   # ==> "Hacin"
+#
+#:call-seq:
+# str.es_stem    => "new_str"
+
 	def es_stem
 		str = self.dup
 		return remove_accent(str) if str.length == 1
@@ -23,6 +58,8 @@ module EStem
 		str = tmp.nil? ? str : tmp
 		remove_accent(str)
 	end
+
+# :stopdoc:
 
 	private
 
