@@ -13,6 +13,6 @@ RDoc::Task.new do |rdoc|
   rdoc.rdoc_files.include('README.rdoc',
                           'lib/**/*',
                           'bin/**/*')
-  rdoc.options = ['--main', 'README.rdoc']
+  rdoc.options = ['--main', 'README.rdoc', '--charset', 'UTF-8']
   rdoc.rdoc_dir = 'rdoc'
 end
