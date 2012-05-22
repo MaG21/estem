@@ -51,7 +51,7 @@ the file, you might consider finding an Spanish tokenizer, either way this
 program do what it is suppose to do, stem Spanish words.
 
 NOTE: For excellent results, consider replacing one word per line on the files
-      the program handles.
+the program handles.
 
 == Uso
 Como recordatorio, ten en cosideración que el Castellano posee muchos carácteres
@@ -83,7 +83,7 @@ este propósito, de todas maneras, es_stem hace lo que se supone debe hacer,
 optener las raíces de las palabras.
 
 NOTA: Para resultados excelentes, considere poner una palabra por línea en los
-      ficheros que pasará el programa.
+ficheros que pasará el programa.
 
 == Test -- Pruebas
 
