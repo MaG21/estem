@@ -1,0 +1,27 @@
+Version 0.2.4
+
+2012-06-25  MaG <maguilamo.c@gmail.com>
+
+*
+  - ChangeLog new file.
+  - fix README.rdoc added.
+  - fix COPYRIGHT added.
+  - examples/usage.rb: new file
+
+* README.rdoc:
+	- max 80 cols per line.
+	- recomendation about using safe_es_stem().
+	- Fix Spanish typos.
+
+* estem.gemspec:
+	- cleanups.
+	- (required_ruby_version): Ruby 1.9.1.
+
+* bin/es_stem.rb:
+	- chmod a+x .
+	- (es_stem.rb:80): fix case sensitive comparation.
+	- (es_stem.rb:25): removed .rb ext.
+	- (es_stem.rb:29): new version.
+
+* estem.rb:
+	- (safe_es_stem): new method.

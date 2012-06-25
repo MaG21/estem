@@ -28,7 +28,8 @@ codeset to another.
 Please remember to use a UTF-8 compatible encoding while using EStem. Please do
 not use String#force_encoding() to convert from one codeset to another, you
 might try using String#encode() but this later is more likely to fail, consider
-using Iconv#iconv if you are handling incompatible codesets.
+using String#safe_es_stem() when handling incompatibles codesets or the codeset
+type is unknown.
 
   require 'estem'
 
@@ -54,15 +55,16 @@ NOTE: For excellent results, consider replacing one word per line on the files
 the program handles.
 
 == Uso
-Como recordatorio, ten en cosideración que el Castellano posee muchos carácteres
-que están fuera del código ASCII, y por esta razón, los datos pueden variar de
-un conjunto de codificación a otro.
+Como recordatorio, ten en cosideración que el Castellano posee muchos
+carácteres que están fuera del código ASCII, y por esta razón, los datos pueden
+variar de un conjunto de codificación a otro.
 
-Por favor recuerde utilizar sistemas de condificación compatibles con UTF-8
+Por favor recuerda utilizar sistemas de condificación compatibles con UTF-8
 cuando se trabaje con EStem. Por favor no use String#force_encoding para
 convertir de un conjunto de codificación a otro, podría utilizar String#encode
 pero este último es más probable que falle en el intento, considere utilizar
-Iconv#iconv si está manejando conjuntos de codificación incompatibles.
+String#safe_es_stem() si está manejando conjuntos de codificación incompatibles
+o se desconoce el tipo.
 
   require 'estem'
 
@@ -74,7 +76,7 @@ Iconv#iconv si está manejando conjuntos de codificación incompatibles.
   puts "HaBiTaCiOnEs".es_stem   # ==> "HaBiT"
   puts "Hacinamiento".es_stem   # ==> "Hacin"
   
-Para más información ejecute el siguiente mandato:
+Para más información ejecuta:
   $ es_stem --help
 
 El programa <tt>es_stem</tt> hará lo posible para separar las palabras de cada
@@ -85,12 +87,18 @@ optener las raíces de las palabras.
 NOTA: Para resultados excelentes, considere poner una palabra por línea en los
 ficheros que pasará el programa.
 
-== Test -- Pruebas
+== Test
 
 This test is based on the sample input and output text from Martin Porter
-website. It includes 23532 test words and their expected stem results.
-To run the test, just type
+website. It includes 28390 test words and their expected stem results.
+To run the test, just type:
+  rake test
 
+== Pruebas
+
+Esta prueba está basada en un archivo de prueba provisto por Martin Porter.
+Incluye 28390 palabras de prueba con sus resultado esperados. Para realizar
+la prueba, ejecuta:
   rake test
 
 == Thanks -- Agradecimientos

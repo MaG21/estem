@@ -1,5 +1,6 @@
 #!/usr/bin/env ruby
 # encoding: UTF-8
+# :stopdoc:
 
 # Copyright (c) 2012 Manuel A. Güílamo
 # 
@@ -21,11 +22,11 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-require 'estem.rb'
+require 'estem'
 require 'getoptlong'
 require 'iconv'
 
-$version = "0.1.9"
+$version = "0.1.10"
 
 def usage(error=false)
 	out = error ? $stderr : $stdout
@@ -76,7 +77,7 @@ end
 
 if filename
 	begin
-		if ienc and ienc!='UTF-8'
+		if ienc and ienc.upcase !='UTF-8'
 			file = File.open(filename, "r:#{ienc}:UTF-8")
 		else
 			file = File.open(filename, 'r:UTF-8')

@@ -19,27 +19,30 @@
 # This code is provided under the terms of the {MIT License.}[http://www.opensource.org/licenses/mit-license.php]
 #
 # = Authors
-#   * Manuel A. Güílamo
+#   * Manuel A. Güílamo maguilamo.c@gmail.com
 #
+
+require 'iconv'
 
 module EStem
 	##
+	# For more information, please refer to <b>String#es_stem</b> method, also <b>EStem</b>.
 	# :method: estem
-	# For more information, please see <b>String#es_stem</b> method, also <b>EStem</b>.
 
-
-##
-#This method stem Spanish words.
-# 
-#   "albergues".es_stem      # ==> "alberg"
-#   "habitaciones".es_stem   # ==> "habit"
-#   "ALbeRGues".es_stem      # ==> "ALbeRG"
-#   "HaBiTaCiOnEs".es_stem   # ==> "HaBiT"
-#   "Hacinamiento".es_stem   # ==> "Hacin"
-#
-#:call-seq:
-# str.es_stem    => "new_str"
-
+	##
+	#This method stem Spanish words.
+	#
+	#   "albergues".es_stem      # ==> "alberg"
+	#   "habitaciones".es_stem   # ==> "habit"
+	#   "ALbeRGues".es_stem      # ==> "ALbeRG"
+	#   "HaBiTaCiOnEs".es_stem   # ==> "HaBiT"
+	#   "Hacinamiento".es_stem   # ==> "Hacin"
+	#
+	#If you are not aware of the codeset the data has, then use
+	#String#safe_es_stem instead.
+	#
+	#:call-seq:
+	# str.es_stem    => "new_str"
 	def es_stem
 		str = self.dup
 		return remove_accent(str) if str.length == 1
@@ -57,6 +60,42 @@ module EStem
 		tmp = step3(str)
 		str = tmp.nil? ? str : tmp
 		remove_accent(str)
+	end
+
+	##
+	#Use this method in case you are not aware of the codeset the data being
+	#handle has. This method returns a new string with the same codeset as
+	#the original. Be aware that this method is slower than String#es_stem()
+	#:call-seq:
+	# str.safe_es_stem    => "new_str"
+	def safe_es_stem
+		return self.es_stem if self.encoding == Encoding::UTF_8
+
+		default_enc = self.encoding.name
+
+		str = self.dup.force_encoding('UTF-8')
+
+		if str.valid_encoding?
+			begin
+				tmp = str.es_stem
+				return tmp.force_encoding(default_enc)
+			rescue
+			end
+		end
+
+		if enc = Encoding.compatible?(self, VOWEL)
+			begin
+				return self.encode(enc).es_stem
+			rescue
+			end
+		end
+
+		begin
+			tmp = Iconv.conv('UTF-8', self.encoding.name, self).es_stem
+			return Iconv.conv(default_enc, 'UTF-8', tmp);
+		rescue
+			return nil
+		end
 	end
 
 # :stopdoc:
