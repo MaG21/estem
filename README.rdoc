@@ -1,7 +1,7 @@
 = Spanish Stem Gem
 
 == Description
-This gem is for reducing Spanish words to their roots. It uses an algorithm
+This gem reduces Spanish words to their respective roots. It uses an algorithm
 based on Martin Porter's specifications.
  
 For more information, visit:
@@ -21,7 +21,7 @@ or
   $ gem install estem
 
 == Usage
-As a reminder, take in consideration that the Spanish language have several non
+As a reminder, take in consideration that the Spanish language has several non
 US-ASCII characters, and because of that, the same data may varied from one
 codeset to another.
 
@@ -48,7 +48,7 @@ for more information type
   $ es_stem --help
 
 The <tt>es_stem</tt> program do his best trying to tokenized the lines from
-the file, you might consider finding an Spanish tokenizer, either way this
+the file, you may consider finding an Spanish tokenizer, either way this
 program do what it is suppose to do, stem Spanish words.
 
 NOTE: For excellent results, consider replacing one word per line on the files
