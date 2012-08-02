@@ -26,10 +26,9 @@ US-ASCII characters, and because of that, the same data may varied from one
 codeset to another.
 
 Please remember to use a UTF-8 compatible encoding while using EStem. Please do
-not use String#force_encoding() to convert from one codeset to another, you
-might try using String#encode() but this later is more likely to fail, consider
-using String#safe_es_stem() when handling incompatibles codesets or the codeset
-type is unknown.
+not use String#force_encoding to convert from one codeset to another, you may
+try using String#encode alone but, instead, consider using String#safe_es_stem
+when handling incompatibles codesets or the codeset type varies.
 
   require 'estem'
 
@@ -41,19 +40,6 @@ type is unknown.
   puts "HaBiTaCiOnEs".es_stem   # ==> "HaBiT"
   puts "Hacinamiento".es_stem   # ==> "Hacin"
 
-You can use <tt>EStem</tt> as a command line tool:
-  $ es_stem --in-enc ISO-8859-1 -f input_file.txt
-
-for more information type
-  $ es_stem --help
-
-The <tt>es_stem</tt> program do his best trying to tokenized the lines from
-the file, you may consider finding an Spanish tokenizer, either way this
-program do what it is suppose to do, stem Spanish words.
-
-NOTE: For excellent results, consider replacing one word per line on the files
-the program handles.
-
 == Uso
 Como recordatorio, ten en cosideración que el Castellano posee muchos
 carácteres que están fuera del código ASCII, y por esta razón, los datos pueden
@@ -62,9 +48,8 @@ variar de un conjunto de codificación a otro.
 Por favor recuerda utilizar sistemas de condificación compatibles con UTF-8
 cuando se trabaje con EStem. Por favor no use String#force_encoding para
 convertir de un conjunto de codificación a otro, podría utilizar String#encode
-pero este último es más probable que falle en el intento, considere utilizar
-String#safe_es_stem() si está manejando conjuntos de codificación incompatibles
-o se desconoce el tipo.
+solo, pero en su lugar, considere utilizar String#safe_es_stem() si está
+manejando conjuntos de codificación incompatibles o se desconoce el tipo.
 
   require 'estem'
 
@@ -75,17 +60,6 @@ o se desconoce el tipo.
   puts "ALbeRGues".es_stem      # ==> "ALbeRG"
   puts "HaBiTaCiOnEs".es_stem   # ==> "HaBiT"
   puts "Hacinamiento".es_stem   # ==> "Hacin"
-  
-Para más información ejecuta:
-  $ es_stem --help
-
-El programa <tt>es_stem</tt> hará lo posible para separar las palabras de cada
-línea del fichero. Sería sensato utilizar otro programa más especializado para
-este propósito, de todas maneras, es_stem hace lo que se supone debe hacer,
-optener las raíces de las palabras.
-
-NOTA: Para resultados excelentes, considere poner una palabra por línea en los
-ficheros que pasará el programa.
 
 == Test
 
@@ -100,11 +74,6 @@ Esta prueba está basada en un archivo de prueba provisto por Martin Porter.
 Incluye 28390 palabras de prueba con sus resultado esperados. Para realizar
 la prueba, ejecuta:
   rake test
-
-== Thanks -- Agradecimientos
-
-Ray Pereda https://github.com/raypereda/stemmify/ I used his gem as a guide to
-package mine. http://guides.rubygems.org/make-your-own-gem/ as well.
 
 == License -- Licencia
 

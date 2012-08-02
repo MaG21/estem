@@ -22,8 +22,6 @@
 #   * Manuel A. Güílamo maguilamo.c@gmail.com
 #
 
-require 'iconv'
-
 module EStem
 	##
 	# For more information, please refer to <b>String#es_stem</b> method, also <b>EStem</b>.
@@ -38,61 +36,59 @@ module EStem
 	#   "HaBiTaCiOnEs".es_stem   # ==> "HaBiT"
 	#   "Hacinamiento".es_stem   # ==> "Hacin"
 	#
-	#If you are not aware of the codeset the data has, then use
+	#If you are not aware of the codeset the data have, try using
 	#String#safe_es_stem instead.
 	#
 	#:call-seq:
 	# str.es_stem    => "new_str"
 	def es_stem
 		str = self.dup
-		return remove_accent(str) if str.length == 1
-		tmp = step0(str)
-		str = tmp ? tmp : str
-
-		unless tmp = step1(str)
-			unless tmp = step2a(str)
-				tmp = step2b(str)
-				str = tmp ? tmp : str
-			else
-				str = tmp
-			end
+		case str.length
+		when 0
+			return str
+		when 1
+			return remove_accent(str)
 		end
-		tmp = step3(str)
-		str = tmp.nil? ? str : tmp
+
+		step0(str)
+		unless step1(str)
+			step2b(str) unless step2a(str)
+		end
+
+		step3(str)
 		remove_accent(str)
 	end
 
 	##
 	#Use this method in case you are not aware of the codeset the data being
-	#handle has. This method returns a new string with the same codeset as
-	#the original. Be aware that this method is slower than String#es_stem()
+	#handle have. This method returns a new string with the same codeset as
+	#the original. Be aware that this method is a bit slower than String#es_stem
 	#:call-seq:
 	# str.safe_es_stem    => "new_str"
 	def safe_es_stem
-		return self.es_stem if self.encoding == Encoding::UTF_8
+		if self.encoding == Encoding::UTF_8
+			# remove invalid characters
+			return self.chars.select{|c| c.valid_encoding? }.join.es_stem
+		end
+
+		unless self.valid_encoding?
+			tmp = self.dup
+			if tmp.force_encoding('UTF-8').valid_encoding?
+				begin
+					return tmp.es_stem
+				rescue
+				end
+			end
+		end
 
 		default_enc = self.encoding.name
+		str = self.chars.select{|c| c.valid_encoding? }.join
 
-		str = self.dup.force_encoding('UTF-8')
-
-		if str.valid_encoding?
-			begin
-				tmp = str.es_stem
-				return tmp.force_encoding(default_enc)
-			rescue
-			end
-		end
-
-		if enc = Encoding.compatible?(self, VOWEL)
-			begin
-				return self.encode(enc).es_stem
-			rescue
-			end
-		end
+		return nil if str.empty?
 
 		begin
-			tmp = Iconv.conv('UTF-8', self.encoding.name, self).es_stem
-			return Iconv.conv(default_enc, 'UTF-8', tmp);
+			tmp = str.encode('UTF-8', str.encoding.name).es_stem
+			return tmp.encode(default_enc, 'UTF-8');
 		rescue
 			return nil
 		end
@@ -145,8 +141,9 @@ module EStem
 		[r1,r2]
 	end
 
+	#=> true or false
 	def step0(str)
-		return nil unless str =~ /(se(l[ao]s?)?|l([aeo]s?)|me|nos)$/i
+		return false unless str =~ /(se(l[ao]s?)?|l([aeo]s?)|me|nos)$/i
 
 		suffix = $&
 		rv_text = str[rv(str)..-1]
@@ -154,21 +151,21 @@ module EStem
 		case rv_text
 		when %r{((?<=i[éÉ]ndo|[áÁ]ndo|[áéíÁÉÍ]r)#{suffix})$}ui
 			str[%r{#$&$}]=''
-			str = remove_accent(str)
-			return str
+			str.replace(remove_accent(str))
+			return true
 		when %r{((?<=iendo|ando|[aei]r)#{suffix})$}i
 			str[%r{#$&$}]=''
-			return str
+			return true
 		end
 
 		if rv_text =~ /yendo/i and str =~ /uyendo/i
 		      str[suffix]=''
-		      return str
+		      return true
 		end
-		nil
+		false
 	end
 
-	#=> new_str or nil
+	#=> true or false
 	def step1(str)
 		r1,r2 = r12(str)
 		r1_text = str[r1..-1]
@@ -177,46 +174,46 @@ module EStem
 		case r2_text
 		when /(anzas?|ic[oa]s?|ismos?|[ai]bles?|istas?|os[oa]s?|[ai]mientos?)$/i
 			str[%r{#$&$}]=''
-			return str
+			return true
 		when /(ic)?(ador([ae]s?)?|aci[óÓ]n|aciones|antes?|ancias?)$/ui
 			str[%r{#$&$}]=''
-			return str
+			return true
 		when /log[íÍ]as?/ui
 			str[%r{#$&$}]='log'
-			return str
+			return true
 		when /(uci([óÓ]n|ones))$/ui
 			str[%r{#$&$}]='u'
-			return str
+			return true
 		when /(encias?)$/i
 			str[%r{#$&$}]='ente'
-			return str
+			return true
 		end
 
 		if r2_text =~ /(ativ|iv|os|ic|ad)amente$/i or r1_text =~ /amente$/i
 			str[%r{#$&$}]=''
-			return str
+			return true
 		end
 
 		case r2_text
 		when /((ante|[ai]ble)?mente)$/i, /((abil|i[cv])?idad(es)?)$/i, /((at)?iv[ao]s?)$/i
 			str[%r{#$&$}]=''
-			return str
+			return true
 		end
-		nil
+		false
 	end
 
-	#=> nil or new_str
+	#=> true or false
 	def step2a(str)
 		rv_pos = rv(str)
 		idx = str[rv_pos..-1] =~ /(y[oóÓ]|ye(ron|ndo)|y[ae][ns]?|ya(is|mos))$/ui
 
-		return nil unless idx
+		return false unless idx
 
 		if 'u' == str[rv_pos+idx-1].downcase
 			str[%r{#$&$}] = ''
-			return str
+			return true
 		end
-		nil
+		false
 	end
 
 	STEP2B_REGEXP = /(
@@ -229,6 +226,7 @@ module EStem
 		en|es|[éÉ]is|emos
 	)$/xiu
 
+	#=> true or false
 	def step2b(str)
 		rv_pos =  rv(str)
 
@@ -240,27 +238,28 @@ module EStem
 			else
 				str[%r{#{suffix}$}]=''
 			end
-			return str
+			return true
 		end
-		nil
+		false
 	end
 
+	#=> true or false
 	def step3(str)
 		rv_pos = rv(str)
 		rv_text = str[rv_pos..-1]
 
 		if rv_text =~ /(os|[aoáíóÁÍÓ])$/ui
 			str[%r{#$&$}]=''
-			return str
+			return true
 		elsif idx = rv_text =~ /(u?[eéÉ])$/i
 			if $&[0].downcase == 'u' and str[rv_pos+idx-1].downcase == 'g'
 				str[%r{#$&$}]=''
 			else
 				str.chop!
 			end
-			return str
+			return true
 		end
-		nil
+		false
 	end
 
 	VOWEL = 'aeiouáéíóúüAEIOUÁÉÍÓÚÜ'

@@ -1,7 +1,5 @@
 require 'estem'
 
-hsh = Hash.new
-
 words = ['albergues','habitaciones','Albergues','ALbeRGues','HaBiTaCiOnEs',
          'Hacinamiento','mujeres','muchedumbre','ocasionalmente']
 
